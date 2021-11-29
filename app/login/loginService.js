@@ -1,17 +1,16 @@
 const LoginDAL = require('./loginDAL');
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const PasswordUtils = require('../utils');
 
 exports.login = async (username, password) => {
   const user = await LoginDAL.getUserByEmail(username);
   if (!user) throw Error('User not found');
-  const isMatch = await bcrypt.compare(password, user.password);
+  const isMatch = await PasswordUtils.compare(password, user.password);
   if (isMatch) return user;
   throw Error('password not match');
 };
 exports.signup = async (email, name, password) => {
   // encrypt password
-  const hashedPw = await bcrypt.hash(password, saltRounds);
+  const hashedPw = await PasswordUtils.hash(password);
 
   // send email
 
