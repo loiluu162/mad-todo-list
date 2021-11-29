@@ -3,10 +3,13 @@
         "browser": true,
         "es2021": true
     },
-    "extends": "eslint:recommended",
+    "extends": "standard",
     "parserOptions": {
-        "ecmaVersion": 13
+        "ecmaVersion": 2020
     },
     "rules": {
+        "semi": "off",
+        "comma-dangle": "off",
+        "space-before-function-paren": "off"
     }
 }
