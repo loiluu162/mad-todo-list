@@ -18,3 +18,7 @@ exports.signup = async (email, name, password) => {
   // save on db
   return await LoginDAL.registerNewAccount(email, name, hashedPw);
 };
+
+exports.isExistsEmail = async (email) => {
+  return await LoginDAL.isExistsEmail(email);
+};

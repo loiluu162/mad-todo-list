@@ -2,11 +2,21 @@ const express = require('express');
 const router = express.Router();
 
 const ToDosController = require('./todosController');
-const logErrors = require('./todosErrors');
+const ToDosErrors = require('./todosErrors');
 
-router.get('/', ToDosController.gettodos);
-router.get('/:id', ToDosController.gettodos);
-router.get('/email/:email', ToDosController.gettodos);
-router.use(logErrors);
+router.get('/', ToDosController.getAllToDos);
+router.get('/:id', ToDosController.getToDoById);
+router.put(
+  '/',
+  ToDosController.validate('updateToDo'),
+  ToDosController.updateToDo
+);
+router.delete('/:id', ToDosController.deleteToDoById);
+router.post(
+  '/',
+  ToDosController.validate('newToDo'),
+  ToDosController.createToDo
+);
+router.use(ToDosErrors);
 
 module.exports = router;

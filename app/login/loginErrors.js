@@ -1,6 +1,7 @@
 function loginErrors(err, req, res, next) {
-  console.log('ERROR', err);
-  //   next(err);
-  res.redirect('/login');
+  res.status(400).json({
+    status: 400,
+    error: err.message,
+  });
 }
 module.exports = loginErrors;

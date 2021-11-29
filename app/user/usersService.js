@@ -9,3 +9,6 @@ exports.getUsers = async function (query, page, limit) {
     throw Error('Error while Paginating Users');
   }
 };
+exports.isExistsUserId = async function (id) {
+  return await UsersDAL.isExistsUserId(id);
+};
