@@ -1,27 +1,28 @@
-const ToDosService = require('./todosService');
+const ToDosService = require('./service');
 const { validationResult } = require('express-validator');
 const { StatusCodes } = require('http-status-codes');
 exports.getToDoById = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    return await ToDosService.getToDoById(id);
+    const todo = await ToDosService.getToDoById(req);
+    return res.status(StatusCodes.OK).json({
+      data: todo,
+    });
   } catch (err) {
     next(err);
   }
 };
 exports.updateToDo = async (req, res, next) => {
   const errors = validationResult(req);
-
   if (!errors.isEmpty()) {
     return res
       .status(StatusCodes.BAD_REQUEST)
       .json({ status: StatusCodes.BAD_REQUEST, errors: errors.array() });
   }
   try {
-    const { id, newTaskName, newDeadline } = req.body;
-    await ToDosService.updateToDo(id, newTaskName, newDeadline);
+    const newToDo = await ToDosService.updateToDo(req);
     return res.status(StatusCodes.ACCEPTED).json({
-      message: `Successfully updated todo had id ${id}`,
+      message: 'Successfully updated todo',
+      data: newToDo,
     });
   } catch (e) {
     next(e);
@@ -29,12 +30,9 @@ exports.updateToDo = async (req, res, next) => {
 };
 exports.deleteToDoById = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    if (!id) throw Error('todo id required');
-    const todo = await ToDosService.getToDoById(id);
-    if (todo) await ToDosService.deleteToDoById(id);
+    await ToDosService.deleteToDoById(req);
     return res.status(StatusCodes.ACCEPTED).json({
-      message: `Successfully delete todo had id ${id}`,
+      message: 'Successfully deleted todo',
     });
   } catch (e) {
     next(e);
@@ -42,16 +40,13 @@ exports.deleteToDoById = async (req, res, next) => {
 };
 exports.createToDo = async (req, res, next) => {
   const errors = validationResult(req);
-
   if (!errors.isEmpty()) {
     return res
       .status(StatusCodes.BAD_REQUEST)
       .json({ status: StatusCodes.BAD_REQUEST, errors: errors.array() });
   }
   try {
-    const userId = req.session.userId;
-    const { taskName, deadline } = req.body;
-    await ToDosService.createToDo(taskName, userId, deadline);
+    await ToDosService.createToDo(req);
     return res.status(StatusCodes.ACCEPTED).json({
       message: 'Successfully created new todo',
     });
@@ -60,12 +55,36 @@ exports.createToDo = async (req, res, next) => {
   }
 };
 exports.getAllToDos = async (req, res, next) => {
-  const todoList = await ToDosService.getAllToDos();
+  const todoList = await ToDosService.getAllToDos(req);
   return res.status(StatusCodes.OK).json({
     data: todoList,
   });
 };
 exports.getAllUserToDos = async (req, res, next) => {
-  const email = req.session.email;
-  return await ToDosService.getAllUserToDos(email);
+  return await ToDosService.getAllUserToDos(req);
+};
+
+exports.getToDoCompleted = async (req, res, next) => {
+  const todoList = await ToDosService.getToDoByStatus(true);
+  return res.status(StatusCodes.OK).json({
+    data: todoList,
+  });
+};
+exports.getToDoNotCompleted = async (req, res, next) => {
+  const todoList = await ToDosService.getToDoByStatus(false);
+  return res.status(StatusCodes.OK).json({
+    data: todoList,
+  });
+};
+exports.toggleCompleted = async (req, res, next) => {
+  try {
+    const result = await ToDosService.toggleCompleted(req);
+    return res.status(StatusCodes.OK).json({
+      status: StatusCodes.OK,
+      message: 'OK',
+      data: result,
+    });
+  } catch (e) {
+    next(e);
+  }
 };

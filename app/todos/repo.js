@@ -5,10 +5,20 @@ exports.getToDoById = async (id) => {
   return result.length ? result[0] : null;
 };
 exports.updateToDo = async (id, newTaskName, newDeadline) => {
-  return await db.query(
-    'UPDATE todos SET task_name=$1, deadline_date=$2 WHERE id=$3',
-    [newTaskName, newDeadline, id]
-  );
+  return (
+    await db.query(
+      'UPDATE todos SET task_name=$1, deadline_date=$2 WHERE id=$3 returning todos.*',
+      [newTaskName, newDeadline, id]
+    )
+  ).rows[0];
+};
+exports.toggleCompleted = async (id) => {
+  return (
+    await db.query(
+      'UPDATE todos SET completed=NOT completed WHERE id=$1 returning id, completed',
+      [id]
+    )
+  ).rows[0];
 };
 exports.deleteToDoById = async (id) => {
   return await db.query('DELETE FROM todos WHERE id=$1', [id]);
@@ -23,10 +33,19 @@ exports.getAllToDos = async () => {
   return (await db.query('SELECT * FROM todos ORDER BY id ASC')).rows;
 };
 exports.getAllUserToDos = async (userId) => {
-  return (await db.query(
-    'SELECT * FROM todos where user_id=$1 ORDER BY id ASC'
-  ),
-  [userId]).rows;
+  return (
+    await db.query('SELECT * FROM todos where user_id=$1 ORDER BY id ASC', [
+      userId,
+    ])
+  ).rows;
+};
+exports.getToDosByStatus = async (userId, completed) => {
+  return (
+    await db.query(
+      'SELECT * FROM todos where user_id=$1 AND completed=$2 ORDER BY id ASC',
+      [userId, completed]
+    )
+  ).rows;
 };
 
 exports.isExistToDo = async (id) => {

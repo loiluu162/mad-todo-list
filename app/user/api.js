@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const UserController = require('./usersController');
-const logErrors = require('./usersErrors');
+const UserController = require('./controller');
+const logErrors = require('./errors');
 
 router.get('/', UserController.getUsers);
 router.get('/:id', UserController.getUsers);

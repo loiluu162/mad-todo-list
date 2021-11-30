@@ -1,1 +1,1 @@
-module.exports = require('./userAPI');
+module.exports = require('./api');

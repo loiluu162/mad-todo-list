@@ -1,8 +1,6 @@
-const UserService = require('./usersService');
+const UserService = require('./service');
 
 exports.getUsers = async function (req, res, next) {
-  // Validate request parameters, queries using express-validator
-  console.log(req);
   const page = req.query.page || 1;
   const limit = req.query.limit || 10;
   try {

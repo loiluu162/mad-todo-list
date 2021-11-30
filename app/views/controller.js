@@ -1,15 +1,15 @@
 exports.renderLogin = (req, res) => {
-  res.render('web/views/login');
+  res.render('views/login');
 };
 
 exports.renderProfile = (req, res) => {
-  res.render('web/views/profile', {
-    username: req.session.username,
+  res.render('views/profile', {
+    email: req.session.email,
   });
 };
 exports.renderSignup = (req, res) => {
-  res.render('web/views/signup');
+  res.render('views/signup');
 };
 exports.renderHome = (req, res) => {
-  res.render('web/views/home');
+  res.render('views/home');
 };

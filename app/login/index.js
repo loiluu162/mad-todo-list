@@ -1,1 +1,1 @@
-module.exports = require('./loginAPI');
+module.exports = require('./api');

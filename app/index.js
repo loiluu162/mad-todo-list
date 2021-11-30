@@ -5,7 +5,7 @@ const { engine } = require('express-handlebars');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const redis = require('redis');
-
+const { redisStore } = require('../config');
 const RedisStore = require('connect-redis')(session);
 
 const app = express();
@@ -26,8 +26,9 @@ app.use(
 // );
 
 const redisClient = redis.createClient({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
+  host: redisStore.host,
+  port: redisStore.port,
+  password: redisStore.password,
 });
 redisClient.on('error', function (error) {
   console.error(error);
@@ -40,7 +41,7 @@ app.use(
     store: new RedisStore({
       client: redisClient,
     }),
-    secret: 'my-super-secret',
+    secret: redisStore.secret,
     resave: false,
     saveUninitialized: false,
   })
@@ -72,6 +73,6 @@ app.set('views', path.join(__dirname));
 app.use('/api/users', require('./user'));
 app.use('/api/todos', require('./todos'));
 app.use('/api/auth', require('./login'));
-app.use('/', require('./web'));
+app.use('/', require('./views'));
 
 module.exports = app;

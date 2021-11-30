@@ -1,4 +1,4 @@
-const UsersDAL = require('./usersDAL');
+const UsersDAL = require('./repo');
 
 exports.getUsers = async function (query, page, limit) {
   try {

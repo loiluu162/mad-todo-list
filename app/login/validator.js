@@ -1,12 +1,12 @@
 const { body } = require('express-validator');
-const LoginService = require('./loginService');
+const UserRepo = require('../user/repo');
 exports.validate = (method) => {
   switch (method) {
     case 'signup': {
       return [
         body('name', 'User full name required ').exists().trim(),
         body('password').isLength({ min: 6 }),
-        body('passwordConfirmation').custom((value, { req }) => {
+        body('confirmPassword').custom((value, { req }) => {
           if (value !== req.body.password) {
             throw new Error('Password confirmation does not match password');
           }
@@ -14,7 +14,7 @@ exports.validate = (method) => {
         }),
         body('email', 'Invalid email').exists().isEmail().trim(),
         body('email').custom((email) => {
-          return LoginService.isExistsEmail(email).then((existed) => {
+          return UserRepo.isExistsEmail(email).then((existed) => {
             if (existed) {
               return Promise.reject(new Error('E-mail already in use'));
             }
@@ -26,7 +26,7 @@ exports.validate = (method) => {
       return [
         body('email', 'User email required ').exists(),
         body('email').custom((email) => {
-          return LoginService.isExistsEmail(email).then((existed) => {
+          return UserRepo.isExistsEmail(email).then((existed) => {
             if (!existed) {
               return Promise.reject(new Error('E-mail not existed in use'));
             }
@@ -39,7 +39,7 @@ exports.validate = (method) => {
       return [
         body('name', 'User full name required ').exists().trim(),
         body('password').isLength({ min: 6 }),
-        body('passwordConfirmation').custom((value, { req }) => {
+        body('confirmPassword').custom((value, { req }) => {
           if (value !== req.body.password) {
             throw new Error('Password confirmation does not match password');
           }
@@ -47,9 +47,9 @@ exports.validate = (method) => {
         }),
         body('email', 'Invalid email').exists().isEmail().trim(),
         body('email').custom((email) => {
-          return LoginService.isExistsEmail(email).then((existed) => {
+          return UserRepo.isExistsEmail(email).then((existed) => {
             if (existed) {
-              return Promise.reject(new Error('E-mail already in use'));
+              return Promise.reject(new Error('Email already in use'));
             }
           });
         }),
