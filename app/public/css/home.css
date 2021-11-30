@@ -1,0 +1,29 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#add-new-todo {
+  padding: 5px 10px;
+}
+ul {
+  list-style-type: none;
+}
+
+.task-name {
+  width: 400px;
+  display: inline-block;
+}
+
+#container {
+  max-width: 800px;
+  height: 100%;
+  margin: 20px auto;
+}
+.jconfirm-holder {
+  max-width: 400px;
+  margin: auto;
+}

@@ -24,25 +24,26 @@ exports.deleteToDoById = async (id) => {
   return await db.query('DELETE FROM todos WHERE id=$1', [id]);
 };
 exports.createToDo = async (taskName, userId, deadline) => {
-  return await db.query(
-    'INSERT INTO todos(user_id,task_name,deadline_date) values($1,$2,$3)',
+  return (await db.query(
+    'INSERT INTO todos(user_id,task_name,deadline_date) values($1,$2,$3) returning todos.*',
     [userId, taskName, deadline]
-  );
+  )).rows[0];
 };
 exports.getAllToDos = async () => {
-  return (await db.query('SELECT * FROM todos ORDER BY id ASC')).rows;
+  return (await db.query('SELECT * FROM todos ORDER BY id DESC')).rows;
 };
 exports.getAllUserToDos = async (userId) => {
   return (
-    await db.query('SELECT * FROM todos where user_id=$1 ORDER BY id ASC', [
-      userId,
-    ])
+    await db.query(
+      'SELECT * FROM todos where user_id=$1 ORDER BY deadline_date ASC',
+      [userId]
+    )
   ).rows;
 };
 exports.getToDosByStatus = async (userId, completed) => {
   return (
     await db.query(
-      'SELECT * FROM todos where user_id=$1 AND completed=$2 ORDER BY id ASC',
+      'SELECT * FROM todos where user_id=$1 AND completed=$2 ORDER BY deadline_date ASC',
       [userId, completed]
     )
   ).rows;

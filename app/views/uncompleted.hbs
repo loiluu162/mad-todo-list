@@ -12,14 +12,14 @@
     rel='stylesheet'
     type='text/css'
   />
-  <script
-    src='https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js'
-    integrity='sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=='
-    crossorigin='anonymous'
-    referrerpolicy='no-referrer'
-    defer
-  ></script>
-  <link
+   <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
+      integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+      defer
+    ></script>
+    <link
       rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"
     />
@@ -27,7 +27,7 @@
   <link href='/static/css/login.css' rel='stylesheet' type='text/css' />
   <link href='/static/css/home.css' rel='stylesheet' type='text/css' />
   <script src='/static/js/home.js'></script>
-  <title>Home page</title>
+  <title>Completed ToDo</title>
 {{/section}}
 
 <header role='banner'>
@@ -43,27 +43,11 @@
     </ul>
   </nav>
 </header>
-<div id='container'>
-  <div class='container__new-todo'>
-    <h2>Add new to do</h2>
-    <form>
-      <label for='taskName'>Task name</label>
-      <input type='text' name='taskName' required />
-      <label for='deadline'>Deadline</label>
-      <input type='datetime-local' name='deadline' required />
-      <button type='submit' id='add-new-todo'>Add</button>
-    </form>
-  </div>
+<div id='container' style='max-width:600px; height: 100%; margin: 20px auto;'>
   <div class='container__todo-list'>
-    <div class='all'>
-      <h2>ALL</h2>
-      <ul class='all__list'></ul>
-    </div>
-    <div class='completed'>
-      <a href='/completed'>Go to completed</a>
-    </div>
     <div class='uncompleted'>
-      <a href='/uncompleted'>Go to uncompleted</a>
+      <h2>Uncompleted</h2>
+      <ul class='uncompleted__list'></ul>
     </div>
   </div>
 </div>

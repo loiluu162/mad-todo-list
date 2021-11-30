@@ -5,7 +5,7 @@ exports.getToDoById = async (req, res, next) => {
   try {
     const todo = await ToDosService.getToDoById(req);
     return res.status(StatusCodes.OK).json({
-      data: todo,
+      content: todo,
     });
   } catch (err) {
     next(err);
@@ -46,9 +46,11 @@ exports.createToDo = async (req, res, next) => {
       .json({ status: StatusCodes.BAD_REQUEST, errors: errors.array() });
   }
   try {
-    await ToDosService.createToDo(req);
+    const newTodo = await ToDosService.createToDo(req);
     return res.status(StatusCodes.ACCEPTED).json({
       message: 'Successfully created new todo',
+      status: StatusCodes.ACCEPTED,
+      newTodo,
     });
   } catch (e) {
     next(e);
@@ -57,7 +59,7 @@ exports.createToDo = async (req, res, next) => {
 exports.getAllToDos = async (req, res, next) => {
   const todoList = await ToDosService.getAllToDos(req);
   return res.status(StatusCodes.OK).json({
-    data: todoList,
+    content: todoList,
   });
 };
 exports.getAllUserToDos = async (req, res, next) => {
@@ -67,13 +69,13 @@ exports.getAllUserToDos = async (req, res, next) => {
 exports.getToDoCompleted = async (req, res, next) => {
   const todoList = await ToDosService.getToDoByStatus(true);
   return res.status(StatusCodes.OK).json({
-    data: todoList,
+    content: todoList,
   });
 };
 exports.getToDoNotCompleted = async (req, res, next) => {
   const todoList = await ToDosService.getToDoByStatus(false);
   return res.status(StatusCodes.OK).json({
-    data: todoList,
+    content: todoList,
   });
 };
 exports.toggleCompleted = async (req, res, next) => {
@@ -82,7 +84,7 @@ exports.toggleCompleted = async (req, res, next) => {
     return res.status(StatusCodes.OK).json({
       status: StatusCodes.OK,
       message: 'OK',
-      data: result,
+      content: result,
     });
   } catch (e) {
     next(e);
