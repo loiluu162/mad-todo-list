@@ -35,7 +35,7 @@ const configSessionDev = () => {
       }),
       secret: redisStore.secret,
       resave: false,
-      cookie: { maxAge: 60000 },
+      cookie: { maxAge: 2 * 60 * 60 * 1000 },
     })
   );
 };
@@ -46,7 +46,7 @@ const configSessionProd = () => {
       saveUninitialized: false,
       secret: 'secret',
       // secret: process.env.SESSION_SECRET,
-      cookie: { maxAge: 60000 },
+      cookie: { maxAge: 2 * 60 * 60 * 1000 },
     })
   );
 };
