@@ -1,4 +1,4 @@
-const { StatusCodes } = require('http-status-codes');
+// const { StatusCodes } = require('http-status-codes');
 const { AVATAR_DIR } = require('../constants');
 const StorageService = require('./service');
 

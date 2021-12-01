@@ -44,13 +44,13 @@ const configSessionProd = () => {
     session({
       resave: false,
       saveUninitialized: false,
-      secret: process.env.SESSION_SECRET,
+      secret: 'secret',
+      // secret: process.env.SESSION_SECRET,
       cookie: { maxAge: 60000 },
     })
   );
 };
 process.env.NODE_ENV === 'dev' ? configSessionDev() : configSessionProd();
-
 app.use('/static', express.static(path.join(__dirname, '/public')));
 
 app.engine(
