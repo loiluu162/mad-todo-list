@@ -7,10 +7,10 @@ const pool = new Pool({
 });
 
 pool.on('connect', (client) => {
-  // console.log('connected');
+  console.log('INFO: Database connected');
 });
 pool.on('error', (client) => {
-  // console.log('not connected');
+  console.log('ERROR: Database not connected');
 });
 module.exports = {
   query: (text, params, callback) => {

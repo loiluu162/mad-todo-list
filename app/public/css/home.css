@@ -16,14 +16,71 @@ ul {
 .task-name {
   width: 400px;
   display: inline-block;
+  font-size: 20px;
+  /* text-overflow: ellipsis; */
+}
+.task-deadline {
+  width: 200px;
+  display: inline-block;
+  font-size: 15px;
 }
 
 #container {
-  max-width: 800px;
+  max-width: 1000px;
   height: 100%;
   margin: 20px auto;
 }
 .jconfirm-holder {
   max-width: 400px;
   margin: auto;
+}
+
+h2 {
+  font-size: 2vw;
+  padding-bottom: 10px;
+}
+.container__new-todo {
+  border: solid 1px #dbdbdb;
+  padding: 20px;
+}
+.container__todo-list {
+  border: solid 1px #dbdbdb;
+  padding: 15px;
+  margin: 20px auto;
+}
+
+#container li {
+  margin: 15px auto;
+  padding: 10px;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.completed {
+  background: yellowgreen;
+}
+
+button {
+  padding: 0.2vw;
+}
+
+button a {
+  color: inherit;
+}
+
+.form-item {
+  max-width: 500px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  gap: 10px;
+}
+
+.form-item input {
+  padding: 5px 10px;
+}
+
+.form-item button {
+  max-width: 200px;
+  padding: 5px 10px;
 }

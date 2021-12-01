@@ -11,6 +11,7 @@ exports.getUsers = async (page, limit) => {
 };
 
 exports.isExistsUserId = async (id) => {
+  console.log(id);
   return (
     (await db.query('SELECT * FROM users where id = $1 and enabled=TRUE', [id]))
       .rows.length > 0
@@ -21,6 +22,12 @@ exports.getUserByEmail = async (email) => {
   const result = (
     await db.query('SELECT * FROM users where email = $1', [email])
   ).rows;
+
+  return result.length ? result[0] : null;
+};
+exports.getUserById = async (id) => {
+  const result = (await db.query('SELECT * FROM users where id = $1', [id]))
+    .rows;
 
   return result.length ? result[0] : null;
 };
@@ -48,4 +55,55 @@ exports.createToken = async (userId, token, purpose) => {
       [token, userId, purpose]
     )
   ).rows[0].token;
+};
+
+exports.getValidToken = async (token, purpose) => {
+  const result = (
+    await db.query(
+      'SELECT * FROM tokens WHERE token = $1 AND purpose=$2 AND expires_at > now() AND token_used_at IS NULL ORDER BY id DESC',
+      [token, purpose]
+    )
+  ).rows;
+  return result.length ? result[0] : null;
+};
+exports.verifyUser = async (userId) => {
+  return (
+    (
+      await db.query('UPDATE users SET enabled=TRUE WHERE id=$1 RETURNING id', [
+        userId,
+      ])
+    ).rows.length > 0
+  );
+};
+exports.markTokenUsed = async (id) => {
+  return (
+    (
+      await db.query(
+        'UPDATE tokens SET token_used_at=CURRENT_TIMESTAMP WHERE id=$1 RETURNING id',
+        [id]
+      )
+    ).rows.length > 0
+  );
+};
+
+exports.resetPassword = async (userId, newHashedPassword) => {
+  return (
+    (
+      await db.query('UPDATE users SET password=$1 WHERE id=$2 RETURNING id', [
+        newHashedPassword,
+        userId,
+      ])
+    ).rows.length > 0
+  );
+};
+
+exports.isCurrentPasswordValid = async (userId, currentHashedPassword) => {
+  return (
+    (
+      await db.query('SELECT * FROM users where id = $1 AND password= $2', [
+        userId,
+        currentHashedPassword,
+      ])
+    ).rows.length > 0
+  );
 };

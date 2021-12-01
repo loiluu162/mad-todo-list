@@ -42,14 +42,15 @@ const getTodoList = () => {
 };
 
 const templateForAll = (todo) => {
-  return `<li id='todo-${todo.id}'><span class='task-name'>${
-    todo.task_name
-  }</span>
-  
+  return `<li id='todo-${todo.id}' class=${todo.completed ? 'completed' : ''}>
+  <span class='task-name'>${todo.task_name}</span>
+  <span class='task-deadline'>Deadline: ${dateString(
+    new Date(todo.deadline_date)
+  )}</span>
   ${
     todo.completed
-      ? `<span><button id='toggle-${todo.id}' class='toggleTodo'>Mark as uncompleted</span>`
-      : `<span><button id='toggle-${todo.id}' class='toggleTodo'>Mark as completed</span>`
+      ? `<span><button id='toggle-${todo.id}' class='toggleTodo'>Mark as uncompleted</button></span>`
+      : `<span><button id='toggle-${todo.id}' class='toggleTodo'>Mark as completed</button></span>`
   }
   <span><button id='deleteTodo-${
     todo.id
@@ -64,18 +65,15 @@ const templateForCompleted = (todo) => {
   return `<li id='todo-${todo.id}'><span class='task-name'>${
     todo.task_name
   }</span>
-  
-  ${
-    todo.completed
-      ? `<span><button id='toggle-${todo.id}' class='toggleTodo'>Mark as uncompleted</span>`
-      : `<span><button id='toggle-${todo.id}' class='toggleTodo'>Mark as completed</span>`
-  }
+  <span class='task-deadline'>Deadline: ${dateString(
+    new Date(todo.deadline_date)
+  )}</span>
   <span><button id='deleteTodo-${
     todo.id
-  }' class='deleteTodo' >Delete</button></span>
+  }' class='deleteTodo'>Delete</button></span>
   <span><button id='deleteTodo-${
     todo.id
-  }' class='updateTodo'>Update</button></span>
+  }' class='updateTodo'><a href="/update/${todo.id}">Update</a></button></span>
   </li>
   `;
 };
@@ -83,18 +81,15 @@ const templateForUncompleted = (todo) => {
   return `<li id='todo-${todo.id}'><span class='task-name'>${
     todo.task_name
   }</span>
-  
-  ${
-    todo.completed
-      ? `<span><button id='toggle-${todo.id}' class='toggleTodo'>Mark as uncompleted</span>`
-      : `<span><button id='toggle-${todo.id}' class='toggleTodo'>Mark as completed</span>`
-  }
+  <span class='task-deadline'>Deadline: ${dateString(
+    new Date(todo.deadline_date)
+  )}</span>
   <span><button id='deleteTodo-${
     todo.id
-  }' class='deleteTodo' >Delete</button></span>
+  }' class='deleteTodo'>Delete</button></span>
   <span><button id='deleteTodo-${
     todo.id
-  }' class='updateTodo'>Update</button></span>
+  }' class='updateTodo'><a href="/update/${todo.id}">Update</a></button></span>
   </li>
   `;
 };
@@ -157,6 +152,7 @@ const handleToggleCompleted = (e) => {
       data.content.completed
         ? $(`#${e.target.id}`).text('Mark as uncompleted')
         : $(`#${e.target.id}`).text('Mark as completed');
+      $(`#todo-${todoId}`).toggleClass('completed');
       $.notify(data.message, {
         autoHideDelay: 800,
         hideDuration: 200,
@@ -216,4 +212,18 @@ const confirmDelete = (e) => {
       cancel: function () {},
     },
   });
+};
+
+const dateString = (date) => {
+  return (
+    ('0' + date.getDate()).slice(-2) +
+    '/' +
+    ('0' + (date.getMonth() + 1)).slice(-2) +
+    '/' +
+    date.getFullYear() +
+    ' ' +
+    ('0' + date.getHours()).slice(-2) +
+    ':' +
+    ('0' + date.getMinutes()).slice(-2)
+  );
 };

@@ -1,5 +1,4 @@
 const ToDosService = require('./service');
-const { validationResult } = require('express-validator');
 const { StatusCodes } = require('http-status-codes');
 exports.getToDoById = async (req, res, next) => {
   try {
@@ -12,12 +11,6 @@ exports.getToDoById = async (req, res, next) => {
   }
 };
 exports.updateToDo = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ status: StatusCodes.BAD_REQUEST, errors: errors.array() });
-  }
   try {
     const newToDo = await ToDosService.updateToDo(req);
     return res.status(StatusCodes.ACCEPTED).json({
@@ -39,12 +32,6 @@ exports.deleteToDoById = async (req, res, next) => {
   }
 };
 exports.createToDo = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ status: StatusCodes.BAD_REQUEST, errors: errors.array() });
-  }
   try {
     const newTodo = await ToDosService.createToDo(req);
     return res.status(StatusCodes.ACCEPTED).json({

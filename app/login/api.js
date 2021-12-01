@@ -7,12 +7,31 @@ const Validator = require('./validator');
 router.post('/login', Validator.validate('login'), LoginController.login);
 router.post('/signup', Validator.validate('signup'), LoginController.signup);
 router.post(
-  '/forgotPassword',
-  Validator.validate('forgotPassword'),
-  LoginController.forgotPassword
+  '/resetPassword',
+  Validator.validate('resetPassword'),
+  LoginController.resetPassword
 );
-router.get('/requestForgotPassword', LoginController.requestForgotPassword);
+router.post(
+  '/changePassword',
+  Validator.validate('changePassword'),
+  LoginController.changePassword
+);
+router.post(
+  '/verifyPasswordResetToken',
+  Validator.validate('verifyPasswordResetToken'),
+  LoginController.verifyPasswordResetToken
+);
+router.post(
+  '/requestForgotPassword',
+  Validator.validate('requestForgotPassword'),
+  LoginController.requestForgotPassword
+);
 router.get('/logout', LoginController.logout);
+router.post(
+  '/verifyEmail',
+  Validator.validate('verifyEmail'),
+  LoginController.verifyEmail
+);
 
 router.use(loginErrors);
 

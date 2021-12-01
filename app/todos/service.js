@@ -1,3 +1,4 @@
+const { validationResult } = require('express-validator');
 const ToDosRepo = require('./repo');
 
 exports.getToDoById = async (id) => {
@@ -6,6 +7,15 @@ exports.getToDoById = async (id) => {
   return todo;
 };
 exports.updateToDo = async (req) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new Error(
+      errors
+        .array()
+        .map((err) => err.msg)
+        .join('\n')
+    );
+  }
   const { id, newTaskName, newDeadline } = req.body;
   return await ToDosRepo.updateToDo(id, newTaskName, newDeadline);
 };
@@ -16,6 +26,15 @@ exports.deleteToDoById = async (req) => {
   if (todo) return await ToDosRepo.deleteToDoById(id);
 };
 exports.createToDo = async (req) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new Error(
+      errors
+        .array()
+        .map((err) => err.msg)
+        .join('\n')
+    );
+  }
   const userId = req.session.userId;
   const { taskName, deadline } = req.body;
   return await ToDosRepo.createToDo(taskName, userId, deadline);

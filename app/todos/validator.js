@@ -13,6 +13,7 @@ exports.validate = (method) => {
         body('taskName').custom((_, { req }) => {
           return UsersService.isExistsUserId(req.session.userId).then(
             (existed) => {
+              console.log(existed);
               if (!existed) {
                 throw new Error('User not exists or still not been verified');
               }

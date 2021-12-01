@@ -9,8 +9,9 @@ config.databaseConnectionString = process.env.DB_CONNECTION_STRING;
 
 config.email = {
   from: process.env.EMAIL_FROM,
-  user: 'xnjjb5n6rntwvr3c@ethereal.email',
-  pass: 'xeVJTFzFsnsN5WBe7N',
+  user: process.env.EMAIL_USERNAME,
+  pass: process.env.EMAIL_PASSWORD,
+  host: process.env.EMAIL_HOST_PROVIDER,
 };
 
 module.exports = config;

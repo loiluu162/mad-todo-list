@@ -1,4 +1,9 @@
-function logErrors(err, req, res, next) {
-  next(err);
+const { StatusCodes } = require('http-status-codes');
+
+function errors(err, req, res, next) {
+  res.status(StatusCodes.BAD_REQUEST).json({
+    status: StatusCodes.BAD_REQUEST,
+    error: err.message,
+  });
 }
-module.exports = logErrors;
+module.exports = errors;

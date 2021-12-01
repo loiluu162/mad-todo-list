@@ -1,29 +1,35 @@
 const nodemailer = require('nodemailer');
 // const htmlToText = require('html-to-text');
-const { from, user, pass } = require('../../config').email;
+const { from, user, pass, host } = require('../../config').email;
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.ethereal.email',
+  host: host,
   port: 587,
   auth: {
     user: user,
     pass: pass,
   },
 });
+
 const sendVerification = async (to, token) => {
-  return await send(to, token, 'welcome', 'Welcome to the Mad to do list');
+  return await send(
+    to,
+    token,
+    'welcome',
+    'Your verification code (valid for only 60 minutes)'
+  );
 };
 const sendPasswordReset = async (to, token) => {
   return await send(
     to,
     token,
     'passwordReset',
-    'Your password reset token (valid for only 30 minutes)'
+    'Your password reset code (valid for only 60 minutes)'
   );
 };
 
 const send = async (to, token, template, subject) => {
-  const text = '12334: ' + token;
+  const text = 'Your code: ' + token;
   const mailOptions = {
     from: from,
     to: to,
@@ -32,5 +38,4 @@ const send = async (to, token, template, subject) => {
   };
   return await transporter.sendMail(mailOptions);
 };
-
 module.exports = { sendPasswordReset, sendVerification };

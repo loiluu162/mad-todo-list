@@ -1,6 +1,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-var */
 /* eslint-disable no-undef */
+
+const LOGIN_API_URL = '/api/auth/login';
+const SIGNUP_API_URL = '/api/auth/signup';
+const FORGOT_PASSWORD_API_URL = '/api/auth/requestForgotPassword';
+
 $(document).ready(function () {
   var $form_modal = $('.cd-user-modal');
   var $form_login = $form_modal.find('#cd-login');
@@ -116,7 +121,9 @@ $(document).ready(function () {
   //       .next('span')
   //       .toggleClass('is-visible');
   //   });
-
+  $('#cd-login form').submit(handleLogin);
+  $('#cd-signup form').submit(handleSignup);
+  $('#cd-reset-password form').submit(handleForgotPassword);
   jQuery.fn.putCursorAtEnd = function () {
     return this.each(function () {
       // If this function exists...
@@ -133,3 +140,109 @@ $(document).ready(function () {
     });
   };
 });
+
+const handleLogin = (e) => {
+  e.preventDefault();
+  console.log('logging in');
+  const formData = getFormData($('#cd-login form'));
+  $.ajax({
+    type: 'post',
+    url: LOGIN_API_URL,
+    data: JSON.stringify(formData),
+    contentType: 'application/json; charset=utf-8',
+    headers: {
+      // [header]: token,
+    },
+    traditional: true,
+    success: function (data, textStatus, xhr) {
+      $('form').trigger('reset');
+      $.notify(data.message, {
+        position: 'top center',
+        className: 'success',
+      });
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 100);
+    },
+    error: function (error) {
+      $.notify(error.responseJSON.error, {
+        position: 'top center',
+        className: 'warn',
+      });
+    },
+  });
+};
+const handleForgotPassword = (e) => {
+  e.preventDefault();
+  console.log('forgot pw');
+  const formData = getFormData($('#cd-reset-password form'));
+  $.ajax({
+    type: 'post',
+    url: FORGOT_PASSWORD_API_URL,
+    data: JSON.stringify(formData),
+    contentType: 'application/json; charset=utf-8',
+    headers: {
+      // [header]: token,
+    },
+    traditional: true,
+    success: function (data, textStatus, xhr) {
+      $('form').trigger('reset');
+      $.notify(data.message, {
+        position: 'top center',
+        className: 'success',
+      });
+      setTimeout(() => {
+        window.location.href = '/requestForgotPasswordSuccess';
+      }, 200);
+    },
+    error: function (error) {
+      $.notify(error.responseJSON.error, {
+        position: 'top center',
+        className: 'warn',
+      });
+    },
+  });
+};
+
+const handleSignup = (e) => {
+  e.preventDefault();
+  console.log('signing up in');
+  const formData = getFormData($('#cd-signup form'));
+  $.ajax({
+    type: 'post',
+    url: SIGNUP_API_URL,
+    data: JSON.stringify(formData),
+    contentType: 'application/json; charset=utf-8',
+    headers: {
+      // [header]: token,
+    },
+    traditional: true,
+    success: function (data, textStatus, xhr) {
+      console.log(data);
+      $.notify(data.message, {
+        position: 'top center',
+        className: 'success',
+      });
+      setTimeout(() => {
+        window.location.href = '/signup-success';
+      }, 10);
+    },
+    error: function (error) {
+      $.notify(error.responseJSON.error, {
+        position: 'top center',
+        className: 'warn',
+      });
+    },
+  });
+};
+
+function getFormData($form) {
+  const unindexedArray = $form.serializeArray();
+  const indexedArray = {};
+
+  $.map(unindexedArray, function (n, i) {
+    indexedArray[n.name] = n.value;
+  });
+
+  return indexedArray;
+}
