@@ -1,9 +1,12 @@
-const Pool = require('pg').Pool;
+const pg = require('pg');
+const Pool = pg.Pool;
+
 const config = require('../../config/index');
 const connectionString = config.databaseConnectionString;
 
 const pool = new Pool({
   connectionString,
+  ssl: { rejectUnauthorized: false },
 });
 
 pool.on('connect', (client) => {

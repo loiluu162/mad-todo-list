@@ -1,5 +1,5 @@
 const express = require('express');
-const { AVATAR_DIR } = require('../constants');
+const { AVATAR_DIR } = require('../../constants');
 const router = express.Router();
 const multer = require('multer');
 const StorageController = require('./controller');

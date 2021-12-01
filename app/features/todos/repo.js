@@ -1,4 +1,4 @@
-const db = require('../db');
+const db = require('../../db');
 
 exports.getToDoById = async (id) => {
   const result = (await db.query('SELECT * FROM todos WHERE id=$1', [id])).rows;

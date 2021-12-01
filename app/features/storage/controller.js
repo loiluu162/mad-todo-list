@@ -1,5 +1,5 @@
 // const { StatusCodes } = require('http-status-codes');
-const { AVATAR_DIR } = require('../constants');
+const { AVATAR_DIR } = require('../../constants');
 const StorageService = require('./service');
 
 exports.saveAvatarImage = async (req, res, next) => {

@@ -1,4 +1,4 @@
-const db = require('../db');
+const db = require('../../db');
 
 exports.getUsers = async (page, limit) => {
   const offset = limit * page - limit;

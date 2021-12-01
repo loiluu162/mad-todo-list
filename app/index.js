@@ -75,10 +75,10 @@ app.set('views', path.join(__dirname));
 
 //
 
-app.use('/api/users', require('./user'));
-app.use('/api/todos', require('./todos'));
-app.use('/api/auth', require('./login'));
-app.use('/api/storage', require('./storage'));
+app.use('/api/users', require('./features/user'));
+app.use('/api/todos', require('./features/todos'));
+app.use('/api/auth', require('./features/login'));
+app.use('/api/storage', require('./features/storage'));
 app.use('/', require('./views'));
 
 module.exports = app;

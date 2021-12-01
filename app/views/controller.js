@@ -1,4 +1,4 @@
-const ToDoService = require('../todos/service');
+const ToDoService = require('../features/todos/service');
 
 exports.renderLogin = (req, res) => {
   res.render('views/login');

@@ -89,4 +89,4 @@ exports.getAllToDosOnDay = async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-}
+};

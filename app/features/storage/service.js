@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const { AVATAR_DIR, IMAGE_EXT_REG } = require('../constants');
+const { AVATAR_DIR, IMAGE_EXT_REG } = require('../../constants');
 
 // const IMAGE_DIR = '/app/uploads/avatars';
 

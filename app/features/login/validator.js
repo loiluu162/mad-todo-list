@@ -4,8 +4,8 @@ const UserRepo = require('../user/repo');
 const {
   EMAIL_CONFIRMATION_PURPOSE,
   PASSWORD_RESET_PURPOSE,
-} = require('../constants');
-const { PasswordUtils } = require('../utils');
+} = require('../../constants');
+const { PasswordUtils } = require('../../utils');
 
 exports.validate = (method) => {
   switch (method) {

@@ -205,6 +205,10 @@ const handleForgotPassword = (e) => {
 };
 
 const handleSignup = (e) => {
+  $.notify('Signing up. Please wait for a few seconds...', {
+    position: 'top center',
+    className: 'info',
+  });
   e.preventDefault();
   console.log('signing up in');
   const formData = getFormData($('#cd-signup form'));

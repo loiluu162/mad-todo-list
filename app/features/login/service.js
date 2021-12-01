@@ -1,11 +1,11 @@
 const UserRepo = require('../user/repo');
 const { validationResult } = require('express-validator');
-const { PasswordUtils, TokenUtils, EmailUtils } = require('../utils');
+const { PasswordUtils, TokenUtils, EmailUtils } = require('../../utils');
 
 const {
   EMAIL_CONFIRMATION_PURPOSE,
   PASSWORD_RESET_PURPOSE,
-} = require('../constants');
+} = require('../../constants');
 
 const login = async (req) => {
   const errors = validationResult(req);
