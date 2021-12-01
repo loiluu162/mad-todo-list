@@ -15,7 +15,6 @@ const storage = multer.diskStorage({
     callback(null, AVATAR_DIR);
   },
   filename: function (request, file, callback) {
-    console.log(file);
     callback(null, file.originalname);
   },
 });
@@ -26,6 +25,7 @@ router.post(
   upload.single('avatar'),
   StorageController.saveAvatarImage
 );
+router.get('/avatar/:file', StorageController.getAvatarImage);
 router.use(ErrorsHandler);
 
 module.exports = router;

@@ -45,12 +45,10 @@
   </nav>
 </header>
 <div id='container'>
-  <h1>Hi change avatar page</h1>
+  <div class="user-card">
+    <h1>Hey, {{email}} with user id {{userId}}!</h1>
+    <img class='avatar' src='/api/storage/avatar/{{{userId}}}.png' alt={{email}} />
+  </div>
 </div>
 
-<h3>Hey, {{email}}!</h3>
-
-You successfully logged-in \o/
-- forgot password 
-- change avatar 
 

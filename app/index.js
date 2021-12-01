@@ -16,36 +16,41 @@ app.use(
     extended: false,
   })
 );
-// app.use(
-//   session({
-//     resave: false,
-//     saveUninitialized: false,
-//     secret: 'my-secret',
-//     cookie: { maxAge: 60000 },
-//   })
-// );
+const configSessionDev = () => {
+  const redisClient = redis.createClient({
+    host: redisStore.host,
+    port: redisStore.port,
+    password: redisStore.password,
+  });
+  redisClient.on('error', function (error) {
+    console.error(error);
+  });
 
-const redisClient = redis.createClient({
-  host: redisStore.host,
-  port: redisStore.port,
-  password: redisStore.password,
-});
-redisClient.on('error', function (error) {
-  console.error(error);
-});
+  // redisClient.set('key', 'value', redis.print);
+  // redisClient.get('key', redis.print);
+  app.use(
+    session({
+      store: new RedisStore({
+        client: redisClient,
+      }),
+      secret: redisStore.secret,
+      resave: false,
+      cookie: { maxAge: 60000 },
+    })
+  );
+};
+const configSessionProd = () => {
+  app.use(
+    session({
+      resave: false,
+      saveUninitialized: false,
+      secret: process.env.SESSION_SECRET,
+      cookie: { maxAge: 60000 },
+    })
+  );
+};
+process.env.NODE_ENV === 'dev' ? configSessionDev() : configSessionProd();
 
-// redisClient.set('key', 'value', redis.print);
-// redisClient.get('key', redis.print);
-app.use(
-  session({
-    store: new RedisStore({
-      client: redisClient,
-    }),
-    secret: redisStore.secret,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
 app.use('/static', express.static(path.join(__dirname, '/public')));
 
 app.engine(

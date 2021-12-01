@@ -84,3 +84,20 @@ button a {
   max-width: 200px;
   padding: 5px 10px;
 }
+
+.user-card {
+  padding: 20px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-card img {
+  margin-top: 20px;
+  border-radius: 50%;
+  width: 500px;
+  height: 500px;
+  object-fit: cover;
+}

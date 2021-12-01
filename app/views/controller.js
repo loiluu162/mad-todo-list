@@ -7,6 +7,7 @@ exports.renderLogin = (req, res) => {
 exports.renderProfile = (req, res) => {
   res.render('views/profile', {
     email: req.session.email,
+    userId: req.session.userId,
   });
 };
 exports.renderSignup = (req, res) => {

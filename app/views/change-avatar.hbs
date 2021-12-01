@@ -45,14 +45,17 @@
 <div id='container'>
   <h1>Hi change avatar page</h1>
   <form method="POST" enctype="multipart/form-data" action="/api/storage/avatar">
-        <input
-          type="file"
-          name="avatar"
-          accept="image/png, image/jpeg"
-          id="imgInp"
-        />
-        <img id="blah" src="#" alt="your image" hidden />
-        <div><input type="submit" value="Change avatar"></input></div>
+  <div class="form-item">
+    <label>Select a image</label>
+          <input
+            type="file"
+            name="avatar"
+            accept="image/png, image/jpeg"
+            id="imgInp"
+          />
+  </div>
+        <div class="form-item"><img id="blah" src="#" alt="your new avatar" hidden required/></div>
+        <div class='form-item'><input type="submit" value="Change avatar"></input></div>
   </form>
 </div>
 
@@ -68,7 +71,8 @@
   </script>
   <style>
     #blah {
-      width: 100px;
-      height: 100px;
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
     }
   </style>
