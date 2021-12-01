@@ -63,3 +63,8 @@ exports.toggleCompleted = async (req) => {
   const { id } = req.params;
   return await ToDosRepo.toggleCompleted(id);
 };
+
+exports.getAllToDosOnDay = async (req) => {
+  const { date } = req.params;
+  return await ToDosRepo.getAllToDosOnDay(req.session.userId, date);
+};

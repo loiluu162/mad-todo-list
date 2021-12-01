@@ -77,3 +77,16 @@ exports.toggleCompleted = async (req, res, next) => {
     next(e);
   }
 };
+
+exports.getAllToDosOnDay = async (req, res, next) => {
+  try {
+    const result = await ToDosService.getAllToDosOnDay(req);
+    return res.status(StatusCodes.OK).json({
+      status: StatusCodes.OK,
+      message: 'OK',
+      content: result,
+    });
+  } catch (e) {
+    next(e);
+  }
+}

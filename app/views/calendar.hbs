@@ -10,20 +10,23 @@
     rel='stylesheet'
     type='text/css'
   />
-   <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"
-      integrity="sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-      defer
-    ></script>
-    <link
-      rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"
-    />
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+  <script
+    src='https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js'
+    integrity='sha512-efUTj3HdSPwWJ9gjfGR71X9cvsrthIA78/Fvd/IN+fttQVy7XWkOAXb295j8B3cmm/kFKVxjiNYzKw9IQJHIuQ=='
+    crossorigin='anonymous'
+    referrerpolicy='no-referrer'
+    defer
+  ></script>
+  <link
+    rel='stylesheet'
+    href='//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css'
+  />
+  <script
+    src='//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js'
+  ></script>
   <link href='/static/css/login.css' rel='stylesheet' type='text/css' />
   <link href='/static/css/home.css' rel='stylesheet' type='text/css' />
+  <script src='/static/js/home.js'></script>
   <script src='/static/js/calendar.js'></script>
   <title>ToDo By Calendar</title>
 {{/section}}
@@ -43,6 +46,26 @@
   </nav>
 </header>
 <div id='container' style='max-width:600px; height: 100%; margin: 20px auto;'>
-      <div class='container__new-todo'>Date picker</div>
-      <div class='container__todo-list'>Content</div>
+  <div class='container__new-todo'>
+    <form>
+      <div class='form-item'>
+        <label for=''>Select one date to see all the to dos</label>
+        <input type='date' name='date' id='selected-date' />
+      </div>
+    </form>
+  </div>
+  <div class='container__todo-list'>
+    <div class='all'>
+      <ul class='all__list'></ul>
+    </div>
+    <div class='to-completed'>
+      <a href='/completed'>Go to completed</a>
+    </div>
+    <div class='to-uncompleted'>
+      <a href='/uncompleted'>Go to uncompleted</a>
+    </div>
+    <div class='to-calendar'>
+      <a href='/calendar'>Go to calendar</a>
+    </div>
+  </div>
 </div>

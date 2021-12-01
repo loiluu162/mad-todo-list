@@ -6,6 +6,7 @@ const ToDosErrors = require('./errors');
 const Validator = require('./validator');
 
 router.get('/', ToDosController.getAllToDos);
+router.get('/date/:date', ToDosController.getAllToDosOnDay);
 router.get('/:id', ToDosController.getToDoById);
 router.put('/complete/:id', ToDosController.toggleCompleted);
 router.put('/', Validator.validate('updateToDo'), ToDosController.updateToDo);
