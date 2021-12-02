@@ -1,6 +1,7 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 // const htmlToText = require('html-to-text');
-const { from, user, pass, host } = require('../../config').email;
+import { emailService } from '../config/index.js';
+const { from, user, pass, host } = emailService;
 
 const transporter = nodemailer.createTransport({
   host: host,
@@ -19,6 +20,7 @@ const sendVerification = async (to, token) => {
     'Your verification code (valid for only 60 minutes)'
   );
 };
+
 const sendPasswordReset = async (to, token) => {
   return await send(
     to,
@@ -38,4 +40,5 @@ const send = async (to, token, template, subject) => {
   };
   return await transporter.sendMail(mailOptions);
 };
-module.exports = { sendPasswordReset, sendVerification };
+
+export default { sendPasswordReset, sendVerification };

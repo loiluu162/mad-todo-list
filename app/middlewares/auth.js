@@ -5,4 +5,4 @@ function authenticationMiddleware(req, res, next) {
   res.redirect('/login');
 }
 
-module.exports = authenticationMiddleware;
+export default authenticationMiddleware;

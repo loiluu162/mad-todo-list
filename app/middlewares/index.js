@@ -1,1 +1,1 @@
-exports.authenticationMiddleware = require('./auth');
+export * as authenticationMiddleware from './auth.js';

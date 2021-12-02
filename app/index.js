@@ -1,14 +1,20 @@
-require('./cronjobs');
-const express = require('express');
-const path = require('path');
-const { engine } = require('express-handlebars');
-const session = require('express-session');
-const cookieParser = require('cookie-parser');
-const redis = require('redis');
-const { redisStore } = require('../config');
-const RedisStore = require('connect-redis')(session);
+import {} from './cronjobs/index.js';
+import express from 'express';
+import path from 'path';
+import { engine } from 'express-handlebars';
+import session from 'express-session';
+import cookieParser from 'cookie-parser';
+import redis from 'redis';
+import { redisStore } from './config/index.js';
+import connectRedis from 'connect-redis';
+import restApiRouter from './packages/restapi/index.js';
+import webRouter from './packages/web/index.js';
+const RedisStore = connectRedis(session);
+
+const __dirname = path.resolve();
 
 const app = express();
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(
@@ -51,14 +57,14 @@ const configSessionProd = () => {
   );
 };
 process.env.NODE_ENV === 'dev' ? configSessionDev() : configSessionProd();
-app.use('/static', express.static(path.join(__dirname, '/public')));
+app.use('/static', express.static(path.join(__dirname, '/app/public')));
 
 app.engine(
   '.hbs',
   engine({
     defaultLayout: 'layout',
     extname: '.hbs',
-    layoutsDir: path.join(__dirname),
+    layoutsDir: path.join(__dirname, '/app'),
     partialsDir: path.join(__dirname),
     helpers: {
       section: function (name, options) {
@@ -71,14 +77,17 @@ app.engine(
 );
 
 app.set('view engine', '.hbs');
-app.set('views', path.join(__dirname));
+app.set('views', path.join(__dirname, '/app'));
 
 //
 
-app.use('/api/users', require('./features/user'));
-app.use('/api/todos', require('./features/todos'));
-app.use('/api/auth', require('./features/login'));
-app.use('/api/storage', require('./features/storage'));
-app.use('/', require('./views'));
+// app.use('/api/users', require('./features/user'));
+// app.use('/api/todos', require('./features/todos'));
+// app.use('/api/auth', require('./features/login'));
+// app.use('/api/storage', require('./features/storage'));
+// app.use('/', require('./views'));
 
-module.exports = app;
+app.use('/api', restApiRouter);
+app.use('/', webRouter);
+
+export default app;

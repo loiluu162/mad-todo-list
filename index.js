@@ -1,8 +1,4 @@
-process.env.NODE_ENV === 'dev'
-  ? require('dotenv').config({ path: '.env.dev' })
-  : require('dotenv').config({ path: '.env.prod' });
-
-const app = require('./app');
+import app from './app/index.js';
 
 const port = process.env.PORT || 3000;
 

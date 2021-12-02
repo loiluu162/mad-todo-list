@@ -1,6 +1,7 @@
-const cron = require('node-cron');
+import cron from 'node-cron';
+
 // cron.schedule('* * * * *', function () {
 //   console.log('running a task every minute');
 // });
 
-module.exports = cron;
+export default cron;

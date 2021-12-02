@@ -1,12 +1,13 @@
-const pg = require('pg');
+import pg from 'pg';
+import { databaseConnectionString } from '../config/index.js';
+
+console.log(databaseConnectionString);
+
 const Pool = pg.Pool;
 
-const config = require('../../config/index');
-const connectionString = config.databaseConnectionString;
-
 const pool = new Pool({
-  connectionString,
-  ssl: { rejectUnauthorized: false },
+  connectionString: databaseConnectionString,
+  // ssl: { rejectUnauthorized: false },
 });
 
 pool.on('connect', (client) => {
@@ -15,7 +16,7 @@ pool.on('connect', (client) => {
 pool.on('error', (client) => {
   console.log('ERROR: Database not connected');
 });
-module.exports = {
+export default {
   query: (text, params, callback) => {
     return pool.query(text, params, callback);
   },
