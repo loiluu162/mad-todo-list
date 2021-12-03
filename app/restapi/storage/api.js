@@ -3,12 +3,8 @@ const { AVATAR_DIR } = require('../../constants');
 const router = express.Router();
 const multer = require('multer');
 const StorageController = require('./controller');
-// const upload = multer({
-//   dest: AVATAR_DIR,
-//   // you might also want to set some limits: https://github.com/expressjs/multer#limits
-// });
+
 const ErrorsHandler = require('./errors');
-// console.log(upload);
 
 const storage = multer.diskStorage({
   destination: function (request, file, callback) {

@@ -1,3 +1,4 @@
+/* eslint-disable node/handle-callback-err */
 /* eslint-disable no-undef */
 
 const noTodoInThisDate = "<h2 class='info'>You have no todo on this day 👋";
@@ -35,7 +36,12 @@ const getTodoListByDate = (date) => {
       );
     },
     error: function (err) {
-      console.log(err);
+      $.notify('Error on loading todo. Could you reload the page?', {
+        position: 'top center',
+        className: 'info',
+        autoHideDelay: 800,
+        hideDuration: 200,
+      });
     },
   });
 };

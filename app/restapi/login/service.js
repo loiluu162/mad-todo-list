@@ -143,6 +143,7 @@ const setUserAuthenticated = (req, user) => {
   req.session.userId = user.id;
   req.session.photoUrl = user.photo_url;
 };
+
 module.exports = {
   login,
   signup,

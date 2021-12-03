@@ -18,10 +18,21 @@ function getFormData($form) {
 }
 
 function changePassword() {
+  $.notify('Resetting the password. Please wait for a few seconds...', {
+    position: 'top center',
+    className: 'info',
+    autoHideDelay: 1000,
+    hideDuration: 200,
+  });
   // check pw match
   if ($('#newPassword').val() !== $('#confirmNewPassword').val()) {
     // console.log($('#password').val(), )
-    showError('confirm password not match');
+    $.notify('Confirm password not match', {
+      position: 'top center',
+      className: 'error',
+      autoHideDelay: 1000,
+      hideDuration: 200,
+    });
     return;
   }
 

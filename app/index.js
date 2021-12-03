@@ -60,7 +60,7 @@ app.use('/static', express.static(path.join(__dirname, '/public')));
 app.engine(
   '.hbs',
   engine({
-    defaultLayout: 'layout',
+    defaultLayout: 'views/layout',
     extname: '.hbs',
     layoutsDir: path.join(__dirname),
     partialsDir: path.join(__dirname),

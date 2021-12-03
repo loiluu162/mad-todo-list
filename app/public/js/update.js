@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 const UPDATE_TODO_API_URL = '/api/todos/';
 $(document).ready(() => {
-  console.log('object');
   $('form').submit(confirmSave);
 });
 function getFormData($form) {
@@ -35,6 +34,12 @@ const confirmSave = (e) => {
 };
 
 const handleSave = () => {
+  $.notify('Saving the new update todo. Please wait for a few seconds...', {
+    position: 'top center',
+    className: 'info',
+    autoHideDelay: 1000,
+    hideDuration: 200,
+  });
   const formData = getFormData($('form'));
   $.ajax({
     type: 'put',

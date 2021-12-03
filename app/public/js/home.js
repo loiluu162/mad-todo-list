@@ -36,8 +36,6 @@ const getTodoList = () => {
       const uncompletedToDos = content.filter((todo) => !todo.completed);
       const allToDos = content;
 
-      console.log(uncompletedToDos);
-
       const allToDosContent = allToDos.map(templateForAll);
       const completedToDosContent = completedToDos.map(templateForCompleted);
       const uncompletedToDosContent = uncompletedToDos.map(
@@ -126,7 +124,6 @@ const handleAddNewTodo = (e) => {
     },
     traditional: true,
     success: function (data, textStatus, xhr) {
-      console.log(data);
       $('form').trigger('reset');
       $.notify(data.message, {
         position: 'top center',
