@@ -39,7 +39,7 @@ exports.validate = (method) => {
             }
           });
         }),
-        body('password').isLength({ min: 6 }),
+        body('password', 'Password required with minimum length 6 ').isLength({ min: 6 }),
       ];
     }
     case 'verifyPasswordResetToken': {
@@ -115,11 +115,12 @@ exports.validate = (method) => {
         body('oldPassword').isLength({ min: 6 }),
         body('oldPassword').custom((oldPassword, { req }) => {
           const { userId } = req.session;
-          return UserRepo.getUserById(userId).then((user) => {
+          return UserRepo.getUserById(userId).then(async (user) => {
             if (!user) {
               return Promise.reject(new Error('User not found'));
             }
-            if (!PasswordUtils.compare(oldPassword, user.password)) {
+
+            if (!(await PasswordUtils.compare(oldPassword, user.password))) {
               throw new Error('Current password wrong');
             }
           });

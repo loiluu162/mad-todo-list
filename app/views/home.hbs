@@ -43,29 +43,36 @@
   </nav>
 </header>
 <div id='container'>
+  <div class='navbar-btn'>
+    <button class='to-completed'>
+      <a href='/completed'>Completed</a>
+    </button>
+    <button class='to-uncompleted'>
+      <a href='/uncompleted'>Uncompleted</a>
+    </button>
+    <button class='to-calendar'>
+      <a href='/calendar'>On Calendar</a>
+    </button>
+  </div>
   <div class='container__new-todo'>
-    <h2>Add new to do</h2>
     <form>
-      <label for='taskName'>Task name</label>
-      <input type='text' name='taskName' required />
-      <label for='deadline'>Deadline</label>
-      <input type='datetime-local' name='deadline' required />
-      <button type='submit' id='add-new-todo'>Add</button>
+      <div class="form-item">
+        <label for='taskName'>New task name 🎁</label>
+        <input type='text' name='taskName' required />
+      </div>
+      <div class="form-item">
+        <label for='deadline'>Deadline 💀</label>
+        <input type='datetime-local' name='deadline' required />
+      </div>
+      <div class="form-item"><button class='updateTodo' type='submit' id='add-new-todo'>Add</button></div>
     </form>
   </div>
+  
   <div class='container__todo-list'>
     <div class='all'>
       <h2>All your todos</h2>
       <ul class='all__list'></ul>
     </div>
-    <div class='to-completed'>
-      <a href='/completed'>Go to completed</a>
-    </div>
-    <div class='to-uncompleted'>
-      <a href='/uncompleted'>Go to uncompleted</a>
-    </div>
-    <div class='to-calendar'>
-      <a href='/calendar'>Go to calendar</a>
-    </div>
+    
   </div>
 </div>

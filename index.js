@@ -10,5 +10,7 @@ app.listen(port, function (err) {
   if (err) {
     throw err;
   }
-  console.log(`server is listening on ${port}`);
+  console.log(
+    `server is listening on ${port} on ${process.env.NODE_ENV} environment`
+  );
 });

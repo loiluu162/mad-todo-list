@@ -1,6 +1,10 @@
 const UserRepo = require('../user/repo');
-const { validationResult } = require('express-validator');
-const { PasswordUtils, TokenUtils, EmailUtils } = require('../../utils');
+const {
+  PasswordUtils,
+  TokenUtils,
+  EmailUtils,
+  catchValidationError,
+} = require('../../utils');
 
 const {
   EMAIL_CONFIRMATION_PURPOSE,
@@ -8,40 +12,24 @@ const {
 } = require('../../constants');
 
 const login = async (req) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw new Error(
-      errors
-        .array()
-        .map((err) => err.msg)
-        .join('\n')
-    );
-  }
+  catchValidationError(req);
   const { email, password } = req.body;
   const user = await UserRepo.getUserByEmail(email);
   if (!user) throw Error('User not found');
   if (!user.enabled) {
     throw Error('User not verified. Please check your email for confirmation');
   }
-  if (await PasswordUtils.compare(password, user.password)) {
-    req.session.loggedIn = true;
-    req.session.email = user.email;
-    req.session.userId = user.id;
-    req.session.photoUrl = user.photo_url;
-    return user;
+  const pwMatch = await PasswordUtils.compare(password, user.password);
+  if (pwMatch) {
+    setUserAuthenticated(req, user);
+    return true;
   }
   throw Error('Password wrong');
 };
+
 const signup = async (req) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw new Error(
-      errors
-        .array()
-        .map((err) => err.msg)
-        .join('\n')
-    );
-  }
+  catchValidationError(req);
+
   const { name, password, email } = req.body;
   // encrypt password
   const hashedPw = await PasswordUtils.hash(password);
@@ -64,21 +52,15 @@ const createVerificationToken = async (userId) => {
   const token = await TokenUtils.generate();
   return await UserRepo.createToken(userId, token, EMAIL_CONFIRMATION_PURPOSE);
 };
+
 const createPasswordResetToken = async (userId) => {
   const token = await TokenUtils.generate();
   return await UserRepo.createToken(userId, token, PASSWORD_RESET_PURPOSE);
 };
 
 const verifyEmail = async (req) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw new Error(
-      errors
-        .array()
-        .map((err) => err.msg)
-        .join('\n')
-    );
-  }
+  catchValidationError(req);
+
   const { code } = req.body;
 
   // eslint-disable-next-line camelcase
@@ -87,36 +69,21 @@ const verifyEmail = async (req) => {
     EMAIL_CONFIRMATION_PURPOSE
   );
   const user = await UserRepo.getUserById(user_id);
-  req.session.loggedIn = true;
-  req.session.email = user.email;
-  req.session.userId = user.id;
-  req.session.photoUrl = user.photo_url;
+  setUserAuthenticated(req, user);
+
   await UserRepo.verifyUser(user_id);
   return await UserRepo.markTokenUsed(id);
 };
 
 const verifyPasswordResetToken = async (req) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw new Error(
-      errors
-        .array()
-        .map((err) => err.msg)
-        .join('\n')
-    );
-  }
+  catchValidationError(req);
+
   return true;
 };
+
 const resetPassword = async (req) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw new Error(
-      errors
-        .array()
-        .map((err) => err.msg)
-        .join('\n')
-    );
-  }
+  catchValidationError(req);
+
   const { code, newPassword } = req.body;
   // hash password
   const hashedPw = PasswordUtils.hash(newPassword);
@@ -126,10 +93,9 @@ const resetPassword = async (req) => {
     PASSWORD_RESET_PURPOSE
   );
   const user = await UserRepo.getUserById(user_id);
-  req.session.loggedIn = true;
-  req.session.email = user.email;
-  req.session.userId = user.id;
-  req.session.photoUrl = user.photo_url;
+
+  setUserAuthenticated(req, user);
+
   // mark token used
   await UserRepo.markTokenUsed(id);
 
@@ -140,16 +106,10 @@ const resetPassword = async (req) => {
   // change password
   return await UserRepo.resetPassword(user_id, hashedPw);
 };
+
 const requestForgotPassword = async (req) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw new Error(
-      errors
-        .array()
-        .map((err) => err.msg)
-        .join('\n')
-    );
-  }
+  catchValidationError(req);
+
   req.session.forgotPassword = true;
   const { email } = req.body;
   // eslint-disable-next-line camelcase
@@ -159,21 +119,29 @@ const requestForgotPassword = async (req) => {
 };
 
 const changePassword = async (req) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    throw new Error(
-      errors
-        .array()
-        .map((err) => err.msg)
-        .join('\n')
-    );
-  }
+  catchValidationError(req);
+
   const { newPassword } = req.body;
   const { userId } = req.session;
 
-  const hashedNewPassword = PasswordUtils.hash(newPassword);
+  const hashedNewPassword = await PasswordUtils.hash(newPassword);
 
   return UserRepo.resetPassword(userId, hashedNewPassword);
+};
+
+const setUserAuthenticated = (req, user) => {
+  // TODO: I dont know why this is not working, it take me a hour to find out error happened here
+  // req.session = {
+  //   ...req.session,
+  //   loggedIn: true,
+  //   email: user.email,
+  //   userId: user.id,
+  //   photoUrl: user.photo_url,
+  // };
+  req.session.loggedIn = true;
+  req.session.email = user.email;
+  req.session.userId = user.id;
+  req.session.photoUrl = user.photo_url;
 };
 module.exports = {
   login,

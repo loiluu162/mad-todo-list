@@ -5,7 +5,8 @@ const { engine } = require('express-handlebars');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const redis = require('redis');
-const { redisStore } = require('../config');
+const { redisStore } = require('./config');
+const { DEFAULT_MAX_AGE_SESSION } = require('./constants');
 const RedisStore = require('connect-redis')(session);
 
 const app = express();
@@ -35,7 +36,9 @@ const configSessionDev = () => {
       }),
       secret: redisStore.secret,
       resave: false,
-      cookie: { maxAge: 60000 },
+      cookie: {
+        maxAge: process.env.SESSION_MAX_AGE || DEFAULT_MAX_AGE_SESSION,
+      },
     })
   );
 };
@@ -44,9 +47,10 @@ const configSessionProd = () => {
     session({
       resave: false,
       saveUninitialized: false,
-      secret: 'secret',
-      // secret: process.env.SESSION_SECRET,
-      cookie: { maxAge: 60000 },
+      secret: process.env.SESSION_SECRET,
+      cookie: {
+        maxAge: process.env.SESSION_MAX_AGE || DEFAULT_MAX_AGE_SESSION,
+      },
     })
   );
 };
@@ -75,10 +79,10 @@ app.set('views', path.join(__dirname));
 
 //
 
-app.use('/api/users', require('./features/user'));
-app.use('/api/todos', require('./features/todos'));
-app.use('/api/auth', require('./features/login'));
-app.use('/api/storage', require('./features/storage'));
-app.use('/', require('./views'));
+app.use('/api/users', require('./restapi/user'));
+app.use('/api/todos', require('./restapi/todos'));
+app.use('/api/auth', require('./restapi/login'));
+app.use('/api/storage', require('./restapi/storage'));
+app.use('/', require('./web'));
 
 module.exports = app;

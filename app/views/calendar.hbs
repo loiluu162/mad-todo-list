@@ -45,11 +45,22 @@
     </ul>
   </nav>
 </header>
-<div id='container' style='max-width:600px; height: 100%; margin: 20px auto;'>
+<div id='container'>
+  <div class='navbar-btn'>
+    <button class='to-all'>
+      <a href='/'>All</a>
+    </button>
+    <button class='to-completed'>
+      <a href='/completed'>Completed</a>
+    </button>
+    <button class='to-uncompleted'>
+      <a href='/uncompleted'> Uncompleted </a>
+    </button>
+  </div>
   <div class='container__new-todo'>
     <form>
       <div class='form-item'>
-        <label for=''>Select one date to see all the to dos</label>
+        <h3 for=''>Select one deadline 💀 to see all the to dos</h3>
         <input type='date' name='date' id='selected-date' />
       </div>
     </form>
@@ -58,14 +69,6 @@
     <div class='all'>
       <ul class='all__list'></ul>
     </div>
-    <div class='to-completed'>
-      <a href='/completed'>Go to completed</a>
-    </div>
-    <div class='to-uncompleted'>
-      <a href='/uncompleted'>Go to uncompleted</a>
-    </div>
-    <div class='to-calendar'>
-      <a href='/calendar'>Go to calendar</a>
-    </div>
+    
   </div>
 </div>

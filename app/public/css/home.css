@@ -17,16 +17,18 @@ ul {
   width: 400px;
   display: inline-block;
   font-size: 20px;
+  font-weight: 500;
   /* text-overflow: ellipsis; */
 }
 .task-deadline {
-  width: 200px;
+  width: 250px;
   display: inline-block;
-  font-size: 15px;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 #container {
-  max-width: 1000px;
+  max-width: 1100px;
   height: 100%;
   margin: 20px auto;
 }
@@ -45,7 +47,8 @@ h2 {
 }
 .container__todo-list {
   border: solid 1px #dbdbdb;
-  padding: 15px;
+  padding: 30px 20px;
+  padding-left: 50px;
   margin: 20px auto;
 }
 
@@ -77,7 +80,11 @@ button a {
 }
 
 .form-item input {
-  padding: 5px 10px;
+  padding: 10px 15px;
+}
+.form-item label {
+  font-size: 19px;
+  font-weight: 500;
 }
 
 .form-item button {
@@ -100,4 +107,194 @@ button a {
   width: 500px;
   height: 500px;
   object-fit: cover;
+}
+
+.form-wrapper {
+  padding: 20px 10px;
+  border: solid 1px #dbdbdb;
+}
+
+.navbar-btn {
+  margin: 20px auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.navbar-btn button {
+  appearance: none;
+  background-color: #2ea44f;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, 'Segoe UI', Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.navbar-btn button:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+
+.navbar-btn button:hover {
+  background-color: #2c974b;
+}
+
+.navbar-btn button:focus {
+  box-shadow: rgba(46, 164, 79, 0.4) 0 0 0 3px;
+  outline: none;
+}
+
+.navbar-btn button:disabled {
+  background-color: #94d3a2;
+  border-color: rgba(27, 31, 35, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: default;
+}
+
+.navbar-btn button:active {
+  background-color: #298e46;
+  box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
+}
+
+.deleteTodo {
+  background: #ff4742;
+  border: 1px solid #ff4742;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: nunito, roboto, proxima-nova, 'proxima nova', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16px;
+  min-height: 40px;
+  outline: 0;
+  padding: 6px 5px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+}
+
+.deleteTodo:hover,
+.deleteTodo:active {
+  background-color: initial;
+  background-position: 0 0;
+  color: #ff4742;
+}
+
+.deleteTodo:active {
+  opacity: 0.5;
+}
+.updateTodo {
+  background-color: #36a9ae;
+  background-image: linear-gradient(#37adb2, #329ca0);
+  border: 1px solid #2a8387;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 1px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: nunito, roboto, proxima-nova, 'proxima nova', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16px;
+  min-height: 40px;
+  outline: 0;
+  padding: 6px 5px;
+  text-align: center;
+  transition: box-shadow 0.05s ease-in-out, opacity 0.05s ease-in-out;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  color: #ffffff;
+}
+
+.updateTodo:hover {
+  box-shadow: rgba(255, 255, 255, 0.3) 0 0 2px inset,
+    rgba(0, 0, 0, 0.4) 0 1px 2px;
+  text-decoration: none;
+  transition-duration: 0.15s, 0.15s;
+}
+
+.updateTodo:active {
+  box-shadow: rgba(0, 0, 0, 0.15) 0 2px 4px inset, rgba(0, 0, 0, 0.4) 0 1px 1px;
+}
+
+.updateTodo:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.updateTodo:disabled:active {
+  pointer-events: none;
+}
+
+.updateTodo:disabled:hover {
+  box-shadow: none;
+}
+
+.toggleTodo {
+  min-width: 120px;
+  background-color: #13aa52;
+  border: 1px solid #13aa52;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: 'Akzidenz Grotesk BQ Medium', -apple-system, BlinkMacSystemFont,
+    sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  outline: none;
+  outline: 0;
+  padding: 5px;
+  text-align: center;
+  transform: translateY(0);
+  transition: transform 150ms, box-shadow 150ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.toggleTodo:hover {
+  box-shadow: rgba(0, 0, 0, 0.15) 0 3px 9px 0;
+  transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+  .toggleTodo {
+    padding: 10px;
+  }
+}
+
+.info {
+  color: rgb(63, 50, 50);
+
+  margin: 50px auto;
+
+  font-size: 25px;
+
+  font-weight: lighter;
 }

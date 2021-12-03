@@ -20,12 +20,15 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
 router.post(
   '/avatar',
   upload.single('avatar'),
   StorageController.saveAvatarImage
 );
+
 router.get('/avatar/:file', StorageController.getAvatarImage);
+
 router.use(ErrorsHandler);
 
 module.exports = router;

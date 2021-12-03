@@ -11,7 +11,6 @@ exports.getUsers = async (page, limit) => {
 };
 
 exports.isExistsUserId = async (id) => {
-  console.log(id);
   return (
     (await db.query('SELECT * FROM users where id = $1 and enabled=TRUE', [id]))
       .rows.length > 0

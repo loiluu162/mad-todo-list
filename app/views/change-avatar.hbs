@@ -43,25 +43,27 @@
   </nav>
 </header>
 <div id='container'>
-  <h1>Hi change avatar page</h1>
-  <form method="POST" enctype="multipart/form-data" action="/api/storage/avatar">
-  <div class="form-item">
-    <label>Select a image</label>
-          <input
-            type="file"
-            name="avatar"
-            accept="image/png, image/jpeg"
-            id="imgInp"
-          />
+  <div class="form-wrapper">
+    <h2 class='form-item'>Hi change avatar page</h2>
+    <form method="POST" enctype="multipart/form-data" action="/api/storage/avatar">
+    <div class="form-item">
+      <label>Select a image (A IMAGE)</label>
+            <input
+              type="file"
+              name="avatar"
+              accept="image/png, image/jpeg"
+              id="imgInp"
+              required
+            />
+    </div>
+          <div class="form-item"><img id="blah" src="#" alt="your new avatar" hidden required/></div>
+          <div class='form-item'><input type="submit" class='toggleTodo' value="Change avatar"></input></div>
+    </form>
   </div>
-        <div class="form-item"><img id="blah" src="#" alt="your new avatar" hidden required/></div>
-        <div class='form-item'><input type="submit" value="Change avatar"></input></div>
-  </form>
 </div>
 
 <script>
     imgInp.onchange = (evt) => {
-      console.log('test');
       const [file] = imgInp.files;
       if (file) {
         blah.hidden = false;

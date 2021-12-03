@@ -104,23 +104,6 @@ $(document).ready(function () {
     $form_forgot_password.addClass('is-selected');
   }
 
-  // REMOVE THIS - it's just to show error messages
-  //   $form_login.find('input[type="submit"]').on('click', function (event) {
-  //     event.preventDefault();
-  //     $form_login
-  //       .find('input[type="email"]')
-  //       .toggleClass('has-error')
-  //       .next('span')
-  //       .toggleClass('is-visible');
-  //   });
-  //   $form_signup.find('input[type="submit"]').on('click', function (event) {
-  //     event.preventDefault();
-  //     $form_signup
-  //       .find('input[type="email"]')
-  //       .toggleClass('has-error')
-  //       .next('span')
-  //       .toggleClass('is-visible');
-  //   });
   $('#cd-login form').submit(handleLogin);
   $('#cd-signup form').submit(handleSignup);
   $('#cd-reset-password form').submit(handleForgotPassword);
@@ -143,7 +126,10 @@ $(document).ready(function () {
 
 const handleLogin = (e) => {
   e.preventDefault();
-  console.log('logging in');
+  $.notify('Logging in. Please wait for a few seconds...', {
+    position: 'top center',
+    className: 'info',
+  });
   const formData = getFormData($('#cd-login form'));
   $.ajax({
     type: 'post',
@@ -174,7 +160,13 @@ const handleLogin = (e) => {
 };
 const handleForgotPassword = (e) => {
   e.preventDefault();
-  console.log('forgot pw');
+  $.notify(
+    'Requesting new forgot password email confirmation. Please wait for a few seconds...',
+    {
+      position: 'top center',
+      className: 'info',
+    }
+  );
   const formData = getFormData($('#cd-reset-password form'));
   $.ajax({
     type: 'post',
@@ -193,7 +185,7 @@ const handleForgotPassword = (e) => {
       });
       setTimeout(() => {
         window.location.href = '/requestForgotPasswordSuccess';
-      }, 200);
+      }, 10);
     },
     error: function (error) {
       $.notify(error.responseJSON.error, {
@@ -210,7 +202,6 @@ const handleSignup = (e) => {
     className: 'info',
   });
   e.preventDefault();
-  console.log('signing up in');
   const formData = getFormData($('#cd-signup form'));
   $.ajax({
     type: 'post',
@@ -222,7 +213,6 @@ const handleSignup = (e) => {
     },
     traditional: true,
     success: function (data, textStatus, xhr) {
-      console.log(data);
       $.notify(data.message, {
         position: 'top center',
         className: 'success',

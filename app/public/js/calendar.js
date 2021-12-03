@@ -1,15 +1,26 @@
 /* eslint-disable no-undef */
+
+const noTodoInThisDate = "<h2 class='info'>You have no todo on this day 👋";
+
 $(document).ready(() => {
   $('#selected-date').change((e) => {
     const date = e.target.value.toString();
-    console.log(date);
     getTodoListByDate(date);
   });
 });
 
 const getTodoListByDate = (date) => {
+  $.notify(
+    'Loading the todo on ' + date + '. Please wait for a few seconds...',
+    {
+      position: 'top center',
+      className: 'info',
+      autoHideDelay: 800,
+      hideDuration: 200,
+    }
+  );
   $.ajax({
-    url: '/api/todos/date/' + date,
+    url: '/api/todos?date=' + date,
     headers: {
       //   [header]: token,
     },
@@ -17,13 +28,10 @@ const getTodoListByDate = (date) => {
     contentType: false,
     type: 'GET',
     success: function ({ content }) {
-      const completedToDos = content.filter((todo) => todo.completed);
-      const uncompletedToDos = content.filter((todo) => !todo.completed);
-      const allToDos = content;
-      $('.all__list').html(allToDos.map(templateForAll));
-      $('.completed__list').html(completedToDos.map(templateForCompleted));
-      $('.uncompleted__list').html(
-        uncompletedToDos.map(templateForUncompleted)
+      const allToDosContent = content.map(templateForAll);
+
+      $('.all__list').html(
+        allToDosContent.length ? allToDosContent : noTodoInThisDate
       );
     },
     error: function (err) {

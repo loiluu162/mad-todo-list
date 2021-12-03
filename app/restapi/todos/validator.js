@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
-const ToDosService = require('./service');
-const UsersService = require('../user/service');
+const ToDosRepo = require('./repo');
+const UsersRepo = require('../user/repo');
 exports.validate = (method) => {
   switch (method) {
     case 'newToDo': {
@@ -11,9 +11,8 @@ exports.validate = (method) => {
           .isISO8601()
           .toDate(),
         body('taskName').custom((_, { req }) => {
-          return UsersService.isExistsUserId(req.session.userId).then(
+          return UsersRepo.isExistsUserId(req.session.userId).then(
             (existed) => {
-              console.log(existed);
               if (!existed) {
                 throw new Error('User not exists or still not been verified');
               }
@@ -26,7 +25,7 @@ exports.validate = (method) => {
       return [
         body('id', 'Todo id required ').exists().isInt(),
         body('id').custom((id, { req }) => {
-          return ToDosService.getToDoById(id)
+          return ToDosRepo.getToDoById(id)
             .then((todo) => {
               const userId = req.session.userId;
               if (todo.user_id !== userId) {

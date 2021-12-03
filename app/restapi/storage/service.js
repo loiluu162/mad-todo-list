@@ -7,6 +7,7 @@ const { AVATAR_DIR, IMAGE_EXT_REG } = require('../../constants');
 if (!fs.existsSync(AVATAR_DIR)) {
   fs.mkdirSync(AVATAR_DIR, { recursive: true });
 }
+
 exports.saveAvatarImage = async (req) => {
   const tempPath = req.file.path;
   const { userId } = req.session;
@@ -21,6 +22,7 @@ exports.saveAvatarImage = async (req) => {
     throw new Error('File type not a image');
   }
 };
+
 exports.getAvatarImage = async (req) => {
   let fileName = req.params.file;
   if (!fs.existsSync(path.join(AVATAR_DIR, fileName))) {

@@ -43,21 +43,25 @@
   </nav>
 </header>
 <div id='container'>
-  <form>
-    <h2 class='form-item'>Check your email
-      {{email}}
-      and enter confirmation code</h2>
-    <div class='form-item'>
-      <label>Code</label>
-      <input type='hidden' value={{{userId}}} name='userId' />
-      <input type='text' required name='code' />
-    </div>
-    <div class='form-item'><button
-        type='submit'
-        style='max-width: 200px'
-      >Verify</button>
-      <div><a href='/login'>Go to login</a></div>
-      <div><a href='/requestConfirmation'>Request new confirm email</a></div></div>
+  <div class="form-wrapper">
+    <form>
+      <h2 class='form-item'>Check your email
+        {{email}}
+        and enter confirmation code</h2>
+      <div class='form-item'>
+        <label>Code</label>
+        <input type='hidden' value={{{userId}}} name='userId' />
+        <input type='text' required name='code' />
       </div>
-  </form>
+      <div class='form-item'><button
+          type='submit'
+          style='max-width: 200px'
+        >Verify</button>
+        <div><a href='/login'>Back to login</a></div>
+        <div><a href='/requestConfirmation'>Request new confirm email?</a></div>
+        </div>
+         
+    </form>
+   
+  </div>
 </div>

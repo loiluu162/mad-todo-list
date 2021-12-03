@@ -1,5 +1,5 @@
 {{#section 'head'}}
-  
+
   <script
     src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'
     integrity='sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=='
@@ -45,24 +45,29 @@
   </nav>
 </header>
 <div id='container'>
-  <form>
-  <h3 class='form-item'>Hello I'm update todo page</h3>
-
-    <div class="form-item">
-      
-      <label>New task name</label>
-      <input required type='hidden' value='{{todo.id}}' name='id' />
-      <input required type='text' value='{{todo.task_name}}' name='newTaskName' />
-    </div>
-    <div class="form-item">
-    <label>New deadline</label>
-      <input
-        required
-        type='datetime-local'
-        value='{{todo.deadline_date}}'
-        name='newDeadline'
-      />
-    </div>
-    <div class="form-item"><button type='submit'>Save</button></div>
-  </form>
+  <div class="form-wrapper">
+    <form>
+      <h2 class='form-item'>Update form to modify your todo</h2>
+      <div class='form-item'>
+        <label>New task name 🎁</label>
+        <input required type='hidden' value='{{todo.id}}' name='id' />
+        <input
+          required
+          type='text'
+          value='{{todo.task_name}}'
+          name='newTaskName'
+        />
+      </div>
+      <div class='form-item'>
+        <label>New deadline 💀</label>
+        <input
+          required
+          type='datetime-local'
+          value='{{todo.deadline_date}}'
+          name='newDeadline'
+        />
+      </div>
+      <div class='form-item'><button class='updateTodo' type='submit'>Save</button></div>
+    </form>
+  </div>
 </div>
