@@ -1,6 +1,8 @@
 const { body } = require('express-validator');
 const ToDosRepo = require('./repo');
 const UsersRepo = require('../user/repo');
+const AppError = require('../../utils/appError');
+const { StatusCodes } = require('http-status-codes');
 
 exports.validate = (method) => {
   switch (method) {
@@ -15,7 +17,10 @@ exports.validate = (method) => {
           return UsersRepo.isExistsUserId(req.session.userId).then(
             (existed) => {
               if (!existed) {
-                throw new Error('User not exists or still not been verified');
+                throw new AppError(
+                  'User not exists or still not been verified',
+                  StatusCodes.FORBIDDEN
+                );
               }
             }
           );
@@ -28,10 +33,18 @@ exports.validate = (method) => {
         body('id').custom((id, { req }) => {
           return ToDosRepo.getToDoById(id)
             .then((todo) => {
+              if (!todo) {
+                return Promise.reject(
+                  new AppError('Todo not found', StatusCodes.NOT_FOUND)
+                );
+              }
               const userId = req.session.userId;
               if (todo.user_id !== userId) {
                 return Promise.reject(
-                  new Error('User has no right to edit this todo')
+                  new AppError(
+                    'User has no right to edit this todo',
+                    StatusCodes.FORBIDDEN
+                  )
                 );
               }
             })

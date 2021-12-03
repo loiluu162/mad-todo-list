@@ -1,10 +1,12 @@
+const AppError = require('../../utils/appError');
 const { catchValidationError } = require('../../utils/');
 const ToDosRepo = require('./repo');
+const { StatusCodes } = require('http-status-codes');
 
 exports.getToDoById = async (req) => {
   const { id } = req.params;
   const todo = await ToDosRepo.getToDoById(id);
-  if (!todo) throw new Error('todo id not found');
+  if (!todo) throw new AppError('Todo not found', StatusCodes.NOT_FOUND);
   return todo;
 };
 
@@ -16,9 +18,9 @@ exports.updateToDo = async (req) => {
 
 exports.deleteToDoById = async (req) => {
   const { id } = req.params;
-  if (!id) throw Error('todo id required');
   const todo = await ToDosRepo.getToDoById(id);
-  if (todo) return await ToDosRepo.deleteToDoById(id);
+  if (!todo) throw new AppError('Todo not found', StatusCodes.NOT_FOUND);
+  return await ToDosRepo.deleteToDoById(id);
 };
 
 exports.createToDo = async (req) => {

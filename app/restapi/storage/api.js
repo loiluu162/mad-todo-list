@@ -3,8 +3,7 @@ const { AVATAR_DIR } = require('../../constants');
 const router = express.Router();
 const multer = require('multer');
 const StorageController = require('./controller');
-
-const ErrorsHandler = require('./errors');
+const { authenticationMiddleware } = require('../../middlewares/');
 
 const storage = multer.diskStorage({
   destination: function (request, file, callback) {
@@ -16,6 +15,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+router.use(authenticationMiddleware);
 
 router.post(
   '/avatar',
@@ -24,7 +24,5 @@ router.post(
 );
 
 router.get('/avatar/:file', StorageController.getAvatarImage);
-
-router.use(ErrorsHandler);
 
 module.exports = router;

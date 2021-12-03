@@ -7,6 +7,8 @@ const cookieParser = require('cookie-parser');
 const redis = require('redis');
 const { redisStore } = require('./config');
 const { DEFAULT_MAX_AGE_SESSION } = require('./constants');
+const AppError = require('./utils/appError');
+const errorHandler = require('./middlewares/errorHandler');
 const RedisStore = require('connect-redis')(session);
 
 const app = express();
@@ -55,7 +57,7 @@ const configSessionProd = () => {
   );
 };
 process.env.NODE_ENV === 'dev' ? configSessionDev() : configSessionProd();
-app.use('/static', express.static(path.join(__dirname, '/public')));
+app.use('/static', express.static('./public'));
 
 app.engine(
   '.hbs',
@@ -84,5 +86,11 @@ app.use('/api/todos', require('./restapi/todos'));
 app.use('/api/auth', require('./restapi/login'));
 app.use('/api/storage', require('./restapi/storage'));
 app.use('/', require('./web'));
+
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
+app.use(errorHandler);
 
 module.exports = app;

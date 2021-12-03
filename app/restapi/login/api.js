@@ -3,8 +3,6 @@ const router = express.Router();
 
 const LoginController = require('./controller');
 
-const loginErrors = require('./errors');
-
 const Validator = require('./validator');
 
 router.post('/login', Validator.validate('login'), LoginController.login);
@@ -42,7 +40,5 @@ router.post(
   Validator.validate('verifyEmail'),
   LoginController.verifyEmail
 );
-
-router.use(loginErrors);
 
 module.exports = router;

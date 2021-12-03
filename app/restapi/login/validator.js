@@ -6,6 +6,8 @@ const {
   PASSWORD_RESET_PURPOSE,
 } = require('../../constants');
 const { PasswordUtils } = require('../../utils');
+const AppError = require('../../utils/appError');
+const { StatusCodes } = require('http-status-codes');
 
 exports.validate = (method) => {
   switch (method) {
@@ -15,7 +17,7 @@ exports.validate = (method) => {
         body('password').isLength({ min: 6 }),
         body('confirmPassword').custom((value, { req }) => {
           if (value !== req.body.password) {
-            throw new Error('Password confirmation does not match password');
+            throw new AppError('Password confirmation does not match password');
           }
           return true;
         }),
@@ -23,7 +25,9 @@ exports.validate = (method) => {
         body('email').custom((email) => {
           return UserRepo.isExistsEmail(email).then((existed) => {
             if (existed) {
-              return Promise.reject(new Error('E-mail already in use'));
+              return Promise.reject(
+                new AppError('E-mail already in use', StatusCodes.FORBIDDEN)
+              );
             }
           });
         }),
@@ -35,11 +39,13 @@ exports.validate = (method) => {
         body('email').custom((email) => {
           return UserRepo.isExistsEmail(email).then((existed) => {
             if (!existed) {
-              return Promise.reject(new Error('E-mail not existed in use'));
+              return Promise.reject(new AppError('E-mail not existed in use'));
             }
           });
         }),
-        body('password', 'Password required with minimum length 6 ').isLength({ min: 6 }),
+        body('password', 'Password required with minimum length 6 ').isLength({
+          min: 6,
+        }),
       ];
     }
     case 'verifyPasswordResetToken': {
@@ -49,7 +55,7 @@ exports.validate = (method) => {
             (token) => {
               if (!token) {
                 return Promise.reject(
-                  new Error(
+                  new AppError(
                     'Password reset code was wrong or had been expired or used'
                   )
                 );
@@ -66,7 +72,7 @@ exports.validate = (method) => {
             (token) => {
               if (!token) {
                 return Promise.reject(
-                  new Error(
+                  new AppError(
                     'Confirm code was wrong or had been expired or used'
                   )
                 );
@@ -81,7 +87,7 @@ exports.validate = (method) => {
         body('newPassword').isLength({ min: 6 }),
         body('confirmNewPassword').custom((value, { req }) => {
           if (value !== req.body.newPassword) {
-            throw new Error('Password confirmation does not match password');
+            throw new AppError('Password confirmation does not match password');
           }
           return true;
         }),
@@ -104,7 +110,9 @@ exports.validate = (method) => {
         body('email').custom((email) => {
           return UserRepo.isExistsEmail(email).then((existed) => {
             if (!existed) {
-              return Promise.reject(new Error('Email not existed in use'));
+              return Promise.reject(
+                new AppError('Email not existed in use', StatusCodes.FORBIDDEN)
+              );
             }
           });
         }),
@@ -121,13 +129,13 @@ exports.validate = (method) => {
             }
 
             if (!(await PasswordUtils.compare(oldPassword, user.password))) {
-              throw new Error('Current password wrong');
+              throw new AppError('Current password wrong');
             }
           });
         }),
         body('newPassword').custom((newPassword, { req }) => {
           if (newPassword === req.body.oldPassword) {
-            throw new Error(
+            throw new AppError(
               'New password need to be different from current one'
             );
           }
@@ -135,7 +143,7 @@ exports.validate = (method) => {
         }),
         body('confirmNewPassword').custom((value, { req }) => {
           if (value !== req.body.newPassword) {
-            throw new Error(
+            throw new AppError(
               'New password confirmation does not match password'
             );
           }

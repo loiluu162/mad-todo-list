@@ -1,6 +1,6 @@
 const LoginService = require('./service');
 const { catchAsync } = require('../../utils');
-const { message } = require('../../utils/response');
+const { messageResponse: message } = require('../../utils/response');
 
 const login = catchAsync(async (req, res, next) => {
   await LoginService.login(req);

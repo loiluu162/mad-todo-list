@@ -1,3 +1,4 @@
+const { catchAsync } = require('../../utils/index.js');
 const ToDoService = require('../../restapi/todos/service.js');
 
 const renderCompletedHome = (req, res) => {
@@ -12,13 +13,13 @@ const renderCalendar = (req, res) => {
   res.render('views/calendar');
 };
 
-const renderUpdateTodo = async (req, res) => {
+const renderUpdateTodo = catchAsync(async (req, res) => {
   const todo = await ToDoService.getToDoById(req);
   todo.deadline_date = todo.deadline_date.toISOString().slice(0, 16);
   res.render('views/update', {
     todo,
   });
-};
+});
 
 const renderHome = (req, res) => {
   res.render('views/home');

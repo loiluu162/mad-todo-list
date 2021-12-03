@@ -1,6 +1,6 @@
 const UserService = require('./service');
 const { catchAsync } = require('../../utils');
-const { message } = require('../../utils/response');
+const { messageResponse: message } = require('../../utils/response');
 const getUsers = catchAsync(async (req, res, next) => {
   const page = req.query.page || 1;
   const limit = req.query.limit || 10;

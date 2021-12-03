@@ -1,6 +1,6 @@
 const ToDosService = require('./service');
 const { catchAsync } = require('../../utils');
-const { message } = require('../../utils/response');
+const { messageResponse: message } = require('../../utils/response');
 
 const getToDoById = catchAsync(async (req, res, next) => {
   const todo = await ToDosService.getToDoById(req);

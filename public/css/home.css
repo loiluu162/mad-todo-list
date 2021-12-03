@@ -43,7 +43,7 @@ h2 {
 }
 .container__new-todo {
   border: solid 1px #dbdbdb;
-  padding: 20px;
+  padding: 10px;
 }
 .container__todo-list {
   border: solid 1px #dbdbdb;
@@ -115,10 +115,11 @@ button a {
 }
 
 .navbar-btn {
-  margin: 20px auto;
+  margin: 10px auto;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
+  gap: 10px;
 }
 
 .navbar-btn button {

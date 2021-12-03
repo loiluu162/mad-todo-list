@@ -1,6 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 
-exports.message = (
+exports.messageResponse = (
   res,
   message,
   content = null,
@@ -13,7 +13,7 @@ exports.message = (
   });
 };
 
-exports.error = (res, error, statusCode = StatusCodes.BAD_REQUEST) => {
+exports.errorResponse = (res, error, statusCode = StatusCodes.BAD_REQUEST) => {
   res.status(statusCode).json({
     status: statusCode,
     error,
