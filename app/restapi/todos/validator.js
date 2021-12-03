@@ -1,6 +1,7 @@
 const { body } = require('express-validator');
 const ToDosRepo = require('./repo');
 const UsersRepo = require('../user/repo');
+
 exports.validate = (method) => {
   switch (method) {
     case 'newToDo': {

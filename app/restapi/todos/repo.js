@@ -4,6 +4,7 @@ exports.getToDoById = async (id) => {
   const result = (await db.query('SELECT * FROM todos WHERE id=$1', [id])).rows;
   return result.length ? result[0] : null;
 };
+
 exports.updateToDo = async (id, newTaskName, newDeadline) => {
   return (
     await db.query(
@@ -12,6 +13,7 @@ exports.updateToDo = async (id, newTaskName, newDeadline) => {
     )
   ).rows[0];
 };
+
 exports.toggleCompleted = async (id) => {
   return (
     await db.query(
@@ -20,9 +22,11 @@ exports.toggleCompleted = async (id) => {
     )
   ).rows[0];
 };
+
 exports.deleteToDoById = async (id) => {
   return await db.query('DELETE FROM todos WHERE id=$1', [id]);
 };
+
 exports.createToDo = async (taskName, userId, deadline) => {
   return (
     await db.query(
@@ -31,9 +35,11 @@ exports.createToDo = async (taskName, userId, deadline) => {
     )
   ).rows[0];
 };
+
 exports.getAllToDos = async () => {
   return (await db.query('SELECT * FROM todos ORDER BY id DESC')).rows;
 };
+
 exports.getAllUserToDos = async (userId) => {
   return (
     await db.query(
@@ -42,6 +48,7 @@ exports.getAllUserToDos = async (userId) => {
     )
   ).rows;
 };
+
 exports.getToDosByStatus = async (userId, completed) => {
   return (
     await db.query(
