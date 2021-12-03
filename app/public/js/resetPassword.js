@@ -93,7 +93,7 @@ $(document).ready(() => {
       if (this.setSelectionRange) {
         // ... then use it (Doesn't work in IE)
         // Double the length because Opera is inconsistent about whether a carriage return is one character or two. Sigh.
-        var len = $(this).val().length * 2;
+        const len = $(this).val().length * 2;
         this.setSelectionRange(len, len);
       } else {
         // ... otherwise replace the contents with itself
